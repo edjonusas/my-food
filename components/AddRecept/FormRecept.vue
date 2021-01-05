@@ -1,43 +1,37 @@
 <template>
   <div class="recept-form">
-    <h2>Sukurkite receptą</h2>
-    <div>
-      <div>
-        <label for="recept-title">Recepto pavadinimas</label>
-        <input id="recept-title" v-model="recept.receptTitle" type="text" />
-      </div>
-      <div class="ingredient-form">
-        <div>Ingredientai</div>
-        <input v-model="ingredient.name" type="text" placeholder="produkto pavadinimas" />
-        <input v-model="ingredient.amount" type="text" placeholder="kiekis" />
-        <select v-model="ingredient.unit">
-          <option disabled selected>Vienetai</option>
-          <option value="vnt.">Vienetai</option>
-          <option value="gr.">Gramai</option>
-          <option value="ml.">Mililitrai</option>
-          <option value="arbatiniai šaukštai">Arbatiniai šaukštai</option>
-          <option value="valgomieji šaukštai">Valgomieji šaukštai</option>
-          <option>stiklinės</option>
-        </select>
-        <button @click="addIngredient">Pridėti</button>
-        <span v-if="ingredientErrorMessage !== ''"> {{ ingredientErrorMessage }}</span>
-      </div>
+    <h2>Recepto įkėlimas</h2>
+    <app-input id="recept-title" label="Recepto pavadinimas" @input="inputTitle" />
+    <app-input
+      id="description"
+      :textarea="true"
+      label="Recepto aprasymas"
+      @input="inputDescription"
+    />
+    <app-input id="img-url" label="Recepto nuotraukos url" @input="inputImgUrl" />
+    <div class="ingredient-form">
+      <app-input
+        id="ingredient-name"
+        label="Ingredientai"
+        place-holder="ingrediento pavadinimas"
+        @input="inputIngredientName"
+      />
+      <app-input place-holder="kiekis" @input="inputIngredientAmount" />
+      <app-select :options="unitOptions" @select="selectedUnit" />
+      <app-button @clicked="addIngredient">Pridėti</app-button>
+      <span v-if="ingredientErrorMessage !== ''"> {{ ingredientErrorMessage }}</span>
+      <slot />
     </div>
-    <div>
-      <label for="description">Recepto aprasymas</label>
-      <textarea id="description" v-model="recept.description"></textarea>
-    </div>
-    <div>
-      <label for="img-url">Recepto nuotraukos url</label>
-      <input id="img-url" type="text" />
-    </div>
-    <slot></slot>
-    <button @click="saveRecept">Issaugoti</button>
+    <app-button @clicked="saveRecept">Issaugoti</app-button>
   </div>
 </template>
 
 <script>
+import AppButton from '../UI/AppButton.vue'
+import AppInput from '../UI/AppInput.vue'
+import AppSelect from '../UI/AppSelect.vue'
 export default {
+  components: { AppInput, AppSelect, AppButton },
   props: {
     recept: {
       type: Object,
@@ -51,6 +45,14 @@ export default {
         amount: null,
         unit: '',
       },
+      unitOptions: [
+        { value: 'vnt.', name: 'Vienetai' },
+        { value: 'gr.', name: 'Gramai' },
+        { value: 'ml.', name: 'Mililitrai' },
+        { value: 'arbatiniai šaukštai', name: 'Arbatiniai šaukštai' },
+        { value: 'valgomieji šaukštai', name: 'Valgomieji šaukštai' },
+        { value: 'stiklinės', name: 'Stiklinės' },
+      ],
       ingredientErrorMessage: '',
       ReceptFormErrorMessage: '',
     }
@@ -88,6 +90,34 @@ export default {
       }
       // this.$emit('save-recept', this.recept)
     },
+    inputTitle(input) {
+      this.recept.receptTitle = input
+    },
+    inputDescription(input) {
+      this.recept.description = input
+    },
+    inputImgUrl(input) {
+      this.recept.imageUrl = input
+    },
+    inputIngredientName(input) {
+      this.ingredient.name = input
+    },
+    inputIngredientAmount(input) {
+      this.ingredient.amount = input
+    },
+    selectedUnit(select) {
+      this.ingredient.unit = select
+    },
   },
 }
 </script>
+
+<style scoped>
+h2 {
+  text-align: center;
+}
+
+.recept-form {
+  margin: 0 10px;
+}
+</style>
