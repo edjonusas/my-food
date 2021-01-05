@@ -11,19 +11,24 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@nuxtjs/axios": "^5.12.2",
     "core-js": "^3.6.5",
     "normalize.css": "^8.0.1",
+=======
+    "core-js": "^3.8.2",
+    "@nuxtjs/axios": "^5.12.5",
+>>>>>>> bee1ff48fdf5b220b9873d2b1f54186e7e17e24b
     "nuxt": "^2.14.6"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^3.1.0",
-    "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/eslint-config": "^5.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.10.0",
-    "eslint-config-prettier": "^6.12.0",
-    "eslint-plugin-nuxt": "^1.0.0",
-    "eslint-plugin-prettier": "^3.1.4",
+    "eslint": "^7.17.0",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "prettier": "^2.1.2"
   }
 }
