@@ -1,45 +1,17 @@
 <template>
   <div>
-    <div class="recept-form">
-      <h2>Skukurkite receptą</h2>
-      <div>
-        <div>
-          <label for="recept-title">Recepto pavadinimas</label>
-          <input id="recept-title" v-model="recept.receptTitle" type="text" />
-        </div>
-        <div>Indegrientai</div>
-        <div>
-          <input type="text" placeholder="produkto pavadinimas" />
-          <input type="text" placeholder="kiekis" />
-          <select>
-            <option>Vienetai</option>
-            <option>Gramai</option>
-            <option>Mililitrai</option>
-            <option>Arbatiniai šaukštai</option>
-            <option>Valgomieji šaukštai</option>
-            <option>stiklinės</option>
-          </select>
-        </div>
-
-        <button>Pridėti</button>
-      </div>
-      <div>
-        <label for="description">Recepto aprasymas</label>
-        <textarea id="description"></textarea>
-      </div>
-      <div>
-        <label for="img-url">Recepto nuotraukos url</label>
-        <input id="img-url" type="text" />
-      </div>
-    </div>
-    <div class="recept-preview">
-      <div class="recept-title-preview">{{ recept.receptTitle }}</div>
-    </div>
+    <form-recept :recept="recept" @add-ingredient="addIngredient">
+      <preview-recept :recept="recept" @delete-ingredient="deleteIngredient" />
+    </form-recept>
   </div>
 </template>
 <script>
+import FormRecept from './FormRecept.vue'
+import PreviewRecept from './PreviewRecept.vue'
+
 export default {
   name: 'AddRecept',
+  components: { PreviewRecept, FormRecept },
   data() {
     return {
       recept: {
@@ -48,12 +20,25 @@ export default {
         description: '',
         imageUrl: '',
       },
-      ingredient: {
-        name: '',
-        amount: '',
-        unit: '',
-      },
     }
+  },
+  methods: {
+    /**
+     *  add ingredient object to recept ingredients array
+     */
+    addIngredient(ingredient) {
+      this.recept.ingredients.push({
+        name: ingredient.name,
+        amount: ingredient.amount,
+        unit: ingredient.unit,
+      })
+    },
+    /**
+     *  delete ingredient object from recept ingredients array
+     */
+    deleteIngredient(index) {
+      this.recept.ingredients.splice(index, 1)
+    },
   },
 }
 </script>
